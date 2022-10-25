@@ -11,7 +11,7 @@ const state = reactive({
   <input
     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
     type="text"
-    placeholder="What needs to be done?"
+    placeholder="What needs to be done today?"
     v-model="state.todoItem"
     @keyup.enter="$emit('submit')"
   />
