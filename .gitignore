@@ -19,4 +19,8 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# project specific
 api/local-db.json
+
+key.json
+.envrc
