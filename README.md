@@ -73,7 +73,9 @@ After the first deployment, check what are the urls generated from the deploymen
 
 That's it folks!
 
-### GitHub workflow
+---
+
+## GitHub workflow
 
 **Authenticate with GCP**
 - [GitHub Action: Authenticate to Google Cloud](https://github.com/marketplace/actions/authenticate-to-google-cloud)
