@@ -66,9 +66,21 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 ```
 Now, export the keys and upload this to GitHub Action's secret
 ```
-gcloud iam service-accounts keys create key.json \
+gcloud iam service-accounts keys create keys/newKey.json \
     --iam-account github-ci@$PROJECT_ID.iam.gserviceaccount.com
 ```
 After the first deployment, check what are the urls generated from the deployment and update the environments in the build process.
 
 That's it folks!
+
+### GitHub workflow
+
+**Authenticate with GCP**
+- [GitHub Action: Authenticate to Google Cloud](https://github.com/marketplace/actions/authenticate-to-google-cloud)
+  - [Configuring OpenID Connect in GCP](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-google-cloud-platform)
+
+**Build and Deploy**
+- [gcloud auth configure-docker](https://cloud.google.com/sdk/gcloud/reference/auth/configure-docker) to configure image push into Container Registry
+  - checkout `cat ~/.docker/config.json`
+- [gcloud run deploy](https://cloud.google.com/sdk/gcloud/reference/run/deploy)
+  - `--platform=managed|gke|kubernetes; default="managed"`

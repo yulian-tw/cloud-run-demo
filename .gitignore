@@ -19,8 +19,15 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# IDE
+.vscode
+
+# Tools & settings
+.envrc
+keys/
+
+# Ignore generated credentials from google-github-actions/auth
+gha-creds-*.json
+
 # project specific
 api/local-db.json
-
-key.json
-.envrc

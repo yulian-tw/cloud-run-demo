@@ -9,45 +9,24 @@ on:
       - .github/workflows/json-server.yml
 
 jobs:
-  hello-world:
+  deploy-json-server:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend:latest
+      FRONTEND_URL: ""
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v3
-      - name: Setup node env 🏗
-        uses: actions/setup-node@v3
+      - name: GCP Auth
+        uses: "google-github-actions/auth@v0"
         with:
-          node-version: "16"
-          cache: "npm"
-      - name: Check npm version 👨🏻‍💻
-        run: npm --version
-      - name: Check npm version 👨🏻‍💻
-        run: node --version
-      - name: Install dependencies 👨🏻‍💻
-        run: npm ci
-  # deploy-json-server:
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend:latest
-  #     FRONTEND_URL: "https://frontend-r6ot4p5wjq-as.a.run.app"
-  #   steps:
-  #     - name: Checkout 🛎
-  #       uses: actions/checkout@v2
-  #     - name: Setup node env 🏗
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: "16"
-  #         cache: "npm"
-  #     - name: GCP Auth
-  #       uses: "google-github-actions/auth@v0"
-  #       with:
-  #         credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
-  #     - name: Configure Docker
-  #       run: gcloud auth configure-docker --quiet
-  #     - name: Build Docker image
-  #       run: docker build -f Dockerfiles/Dockerfile.backend . -t $IMAGE_NAME
-  #     - name: Push Docker image
-  #       run: docker push $IMAGE_NAME
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - name: Configure Docker
+        run: gcloud auth configure-docker --quiet
+      - name: Build Docker image
+        run: docker build -f Dockerfiles/Dockerfile.backend . -t $IMAGE_NAME
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
   #     - name: Deploy Docker image
   #       run: |
   #         gcloud run deploy backend --image $IMAGE_NAME --region asia-southeast1 --platform managed \
