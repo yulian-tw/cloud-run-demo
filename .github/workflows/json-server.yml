@@ -8,11 +8,14 @@ on:
       - api/**
       - .github/workflows/json-server.yml
 
+env:
+  CONTAINER_REGISTRY_HOSTNAME: asia.gcr.io
+
 jobs:
   deploy-json-server:
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend:latest
+      IMAGE_NAME: ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ secrets.GCP_PROJECT_ID }}/backend:latest
       FRONTEND_URL: ""
     steps:
       - name: Checkout 🛎
@@ -22,7 +25,7 @@ jobs:
         with:
           credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
       - name: Configure Docker
-        run: gcloud auth configure-docker --quiet gcr.io
+        run: gcloud auth configure-docker --quiet $CONTAINER_REGISTRY_HOSTNAME
       - name: Build Docker image
         run: docker build -f Dockerfiles/Dockerfile.backend . -t $IMAGE_NAME
       - name: Push Docker image

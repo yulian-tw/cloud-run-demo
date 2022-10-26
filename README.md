@@ -84,3 +84,6 @@ That's it folks!
   - checkout `cat ~/.docker/config.json`
 - [gcloud run deploy](https://cloud.google.com/sdk/gcloud/reference/run/deploy)
   - `--platform=managed|gke|kubernetes; default="managed"`
+
+**GCP docs**
+- [Container Registry & Location](https://cloud.google.com/container-registry/docs/overview#registries)
