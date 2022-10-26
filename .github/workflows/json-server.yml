@@ -22,7 +22,7 @@ jobs:
         with:
           credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
       - name: Configure Docker
-        run: gcloud auth configure-docker --quiet
+        run: gcloud auth configure-docker --quiet gcr.io
       - name: Build Docker image
         run: docker build -f Dockerfiles/Dockerfile.backend . -t $IMAGE_NAME
       - name: Push Docker image
