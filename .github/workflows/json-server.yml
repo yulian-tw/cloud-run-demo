@@ -15,7 +15,7 @@ jobs:
   deploy-json-server:
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: ${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ secrets.GCP_PROJECT_ID }}/backend:latest
+      IMAGE_NAME: '${{ env.CONTAINER_REGISTRY_HOSTNAME }}/${{ secrets.GCP_PROJECT_ID }}/backend:latest'
       FRONTEND_URL: ""
     steps:
       - name: Checkout 🛎
