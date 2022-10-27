@@ -43,5 +43,5 @@ jobs:
         run: docker push $IMAGE_NAME
       - name: Deploy Docker image
         run: |
-          gcloud run deploy frontend --image $IMAGE_NAME ${{ secrets.GCP_DEPLOY_REGION }} \
+          gcloud run deploy frontend --image $IMAGE_NAME --region ${{ secrets.GCP_DEPLOY_REGION }} \
             --platform managed --memory 128Mi --allow-unauthenticated --port 80
