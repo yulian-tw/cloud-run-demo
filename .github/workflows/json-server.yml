@@ -9,9 +9,6 @@ on:
       - Dockerfiles/Dockerfile.backend
       - .github/workflows/json-server.yml
 
-env:
-  CONTAINER_REGISTRY_HOSTNAME: asia.gcr.io
-
 jobs:
   deploy-json-server:
     runs-on: ubuntu-latest
@@ -27,7 +24,7 @@ jobs:
           credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
       - name: Configure Docker
         run: gcloud auth configure-docker --quiet ${{ secrets.GCP_CONTAINER_REGISTRY_HOSTNAME }}
-      - name: Build Docker image
+      - name: Build Docker image 🏗
         run: docker build -f Dockerfiles/Dockerfile.backend . -t $IMAGE_NAME
       - name: Push Docker image
         run: docker push $IMAGE_NAME
