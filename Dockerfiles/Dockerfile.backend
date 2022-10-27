@@ -5,8 +5,8 @@ WORKDIR /app
 COPY api/local-db-example.json api/db.json
 COPY api/api-key-middleware.js api/api-key-middleware.js
 
-RUN npm i json-server
+RUN npm i -g json-server
 
 EXPOSE 8080
  
-CMD npm run -- json-server --watch ./api/db.json --middlewares ./api/api-key-middleware.js --port 8080
+CMD json-server --watch ./api/db.json --middlewares ./api/api-key-middleware.js --port 8080
