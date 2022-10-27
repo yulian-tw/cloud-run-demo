@@ -16,17 +16,17 @@ jobs:
   deploy-json-server:
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: asia.gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend:latest
+      IMAGE_NAME: ${{ secrets.GCP_CONTAINER_REGISTRY_HOSTNAME }}/${{ secrets.GCP_PROJECT_ID }}/backend:latest
       FRONTEND_URL: ""
     steps:
-      - name: Checkout 🛎
+      - name: Checkout
         uses: actions/checkout@v3
-      - name: GCP Auth
+      - name: GCP Auth 👨🏻‍💻
         uses: "google-github-actions/auth@v0"
         with:
           credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
       - name: Configure Docker
-        run: gcloud auth configure-docker --quiet $CONTAINER_REGISTRY_HOSTNAME
+        run: gcloud auth configure-docker --quiet ${{ secrets.GCP_CONTAINER_REGISTRY_HOSTNAME }}
       - name: Build Docker image
         run: docker build -f Dockerfiles/Dockerfile.backend . -t $IMAGE_NAME
       - name: Push Docker image
@@ -36,7 +36,7 @@ jobs:
       #     gcloud run deploy backend --image $IMAGE_NAME --region asia-southeast1 --platform managed \
       #       --memory 128Mi --allow-unauthenticated \
       #       --set-env-vars=API_SECRET=${{ secrets.API_SECRET }},FRONTEND_URL=$FRONTEND_URL
-      - name: Deploy Docker image
+      - name: Deploy Docker image 🛎
         run: |
-          gcloud run deploy backend --image $IMAGE_NAME --region asia-southeast1 --platform managed \
-            --memory 128Mi --allow-unauthenticated
+          gcloud run deploy backend --image $IMAGE_NAME --region ${{ secrets.GCP_DEPLOY_REGION }} \
+            --platform managed --memory 128Mi --allow-unauthenticated
