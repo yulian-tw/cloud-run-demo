@@ -31,8 +31,12 @@ jobs:
         run: docker build -f Dockerfiles/Dockerfile.backend . -t $IMAGE_NAME
       - name: Push Docker image
         run: docker push $IMAGE_NAME
-  #     - name: Deploy Docker image
-  #       run: |
-  #         gcloud run deploy backend --image $IMAGE_NAME --region asia-southeast1 --platform managed \
-  #           --set-env-vars=API_SECRET=${{ secrets.API_SECRET }},FRONTEND_URL=$FRONTEND_URL \
-  #           --memory 128Mi --allow-unauthenticated
+      # - name: Deploy Docker image
+      #   run: |
+      #     gcloud run deploy backend --image $IMAGE_NAME --region asia-southeast1 --platform managed \
+      #       --memory 128Mi --allow-unauthenticated \
+      #       --set-env-vars=API_SECRET=${{ secrets.API_SECRET }},FRONTEND_URL=$FRONTEND_URL
+      - name: Deploy Docker image
+        run: |
+          gcloud run deploy backend --image $IMAGE_NAME --region asia-southeast1 --platform managed \
+            --memory 128Mi --allow-unauthenticated
