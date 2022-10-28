@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: ${{ secrets.GCP_CONTAINER_REGISTRY_HOSTNAME }}/${{ secrets.GCP_PROJECT_ID }}/backend:latest
-      FRONTEND_URL: ""
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,12 +27,10 @@ jobs:
         run: docker build -f Dockerfiles/Dockerfile.backend . -t $IMAGE_NAME
       - name: Push Docker image
         run: docker push $IMAGE_NAME
-      # - name: Deploy Docker image
-      #   run: |
-      #     gcloud run deploy backend --image $IMAGE_NAME --region asia-southeast1 --platform managed \
-      #       --memory 128Mi --allow-unauthenticated \
-      #       --set-env-vars=API_SECRET=${{ secrets.API_SECRET }},FRONTEND_URL=$FRONTEND_URL
       - name: Deploy Docker image 🛎
+        env:
+          FRONTEND_URL: "https://frontend-vz7jtprhnq-as.a.run.app"
         run: |
           gcloud run deploy backend --image $IMAGE_NAME --region ${{ secrets.GCP_DEPLOY_REGION }} \
-            --platform managed --memory 128Mi --allow-unauthenticated
+            --platform managed --memory 128Mi --allow-unauthenticated \
+            --set-env-vars=API_SECRET=${{ secrets.API_SECRET }},FRONTEND_URL=$FRONTEND_URL
